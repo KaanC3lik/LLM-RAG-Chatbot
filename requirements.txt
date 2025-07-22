@@ -5,3 +5,7 @@ faiss-cpu
 langchain-google-genai
 python-dotenv
 PyMuPDF
+ipython
+langgraph-cli
+langchain-tavily
+sentence-transformers

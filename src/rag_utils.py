@@ -45,7 +45,8 @@ def load_and_split_pdf(file):
 
 
 def embed_documents(docs):
-    embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+    embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001",
+transport="rest")
     vectorstore = FAISS.from_documents(docs, embedding=embeddings)
     return vectorstore
 
@@ -54,12 +55,9 @@ def retrieve_documents(vectorstore, query):
     return docs
 
 def build_hybrid_retriever(docs):
-    # 1. Vector index
-    embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
-    vectorstore = FAISS.from_documents(docs, embeddings)
 
     # 2. BM25 retriever
     bm25 = BM25Retriever.from_documents(docs)
     bm25.k = 4
 
-    return vectorstore, bm25
+    return embed_documents(docs), bm25
